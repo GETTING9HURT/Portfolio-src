@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aabid Hasan | Portfolio</title>
+    
+    <!-- Link to Google Fonts for Inter and Source Code Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- NEW: Importing Lemon/Milk Font -->
+    <link href="https://fonts.cdnfonts.com/css/lemon-milk" rel="stylesheet">
+
+
+    <style>
+        /* CSS Variables for easy theme switching */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --subtle-text-color: #888888;
+            --card-bg: #f9f9f9;
+            --card-border: #eee;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Lemon/Milk', sans-serif; /* NEW: Display font variable */
+            --font-mono: 'Source Code Pro', monospace;
+            --transition-speed: 0.9s;
+            --switch-bg: #E0E0E0;
+            --switch-thumb: white;
+            --header-bg: rgba(255, 255, 255, 0.5); /* Adjusted for a clearer blur */
+            --header-border: rgba(0,0,0,0.05);
+            --icon-color: #111;
+            --btn-bg: #111;
+            --btn-text: #fff;
+            --anim-main-color: #8b5cf6;
+            --anim-secondary-color: #fbbf24;
+            --anim-grid-color: #80808015;
+        }
+
+        /* Dark theme definition */
+        body.dark-theme {
+            --bg-color: #111111;
+            --text-color: #f0f0f0;
+            --subtle-text-color: #777777;
+            --card-bg: #1a1a1a;
+            --card-border: #2a2a2a;
+            --switch-bg: #2b2b2b;
+            --switch-thumb: #444;
+            --header-bg: rgba(17, 17, 17, 0.5); /* Adjusted for a clearer blur */
+            --header-border: rgba(255,255,255,0.08);
+            --icon-color: #f0f0f0;
+            --btn-bg: #f0f0f0;
+            --btn-text: #111;
+            --anim-grid-color: #ffffff15;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            /* Hide scrollbar for IE, Edge and Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: transparent;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        -webkit-backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-bottom-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-header.scrolled {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* For Safari support */
+            border-bottom-color: var(--header-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            z-index: 101;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo svg {
+             transition: all 0.3s ease;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+            transition: 0.3s ease;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--subtle-text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .theme-switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--switch-bg);
+            transition: .4s;
+            border-radius: 28px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--switch-thumb);
+            transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 rgba(240, 240, 240, 0);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            box-shadow: 0 0 10px rgba(240, 240, 240, 0.5);
+        }
+
+        .icons-container {
+            position: absolute;
+            left: 4px;
+            bottom: 4px;
+            width: 20px;
+            height: 20px;
+            z-index: 2;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .slider-icon {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .slider-icon svg, .slider-icon img {
+             width: 16px;
+             height: 16px;
+        }
+
+        .slider-icon svg {
+             fill: var(--icon-color);
+             transition: fill 0.3s ease;
+        }
+        
+        .dark-theme .moon-icon img {
+            filter: invert(1);
+        }
+
+        .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        .moon-icon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.8);
+        }
+        
+        input:checked ~ .icons-container {
+            transform: translateX(24px);
+        }
+
+        input:checked ~ .icons-container .sun-icon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.8);
+        }
+        
+        input:checked ~ .icons-container .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        
+        main {
+            padding-top: 80px;
+        }
+        
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 5%; /* Reduced vertical padding */
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        #home {
+             min-height: 70vh; /* Reduced hero section height */
+             padding-top: 0;
+             padding-bottom: 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display); /* Use display font for headings */
+            font-weight: 700; /* Lemon/Milk Bold is often 700 */
+            transition: text-shadow 0.4s ease;
+        }
+
+        h1, h2 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin: 0.5rem 0;
+            line-height: 1.1;
+        }
+        
+        h3 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 3rem;
+        }
+
+        #projects h2, #skills h3, #hackathon-projects h2 {
+            margin-bottom: 5rem; /* Increased spacing */
+        }
+
+        .dark-theme h1, .dark-theme h2, .dark-theme h3 {
+            text-shadow: 0 0 12px rgba(240, 240, 240, 0.2);
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: 400;
+            line-height: 1.7;
+            max-width: 700px;
+            color: var(--subtle-text-color);
+        }
+        
+        #about p {
+            color: var(--text-color);
+            font-weight: 500;
+            max-width: 800px; /* Wider for about section text */
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease;
+        }
+
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+        
+        .project-card, .social-icons, .skill-category, .skill-item {
+            transition-delay: var(--delay, 0s);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(356px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            justify-items: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            text-align: left;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: inherit;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Skills Section Styling */
+        .skill-category h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+        .skill-category li {
+            font-size: 1.1rem;
+            color: var(--subtle-text-color);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+
+        /* Typing animation */
+        .typing-container {
+            font-family: var(--font-display);
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            font-weight: 700;
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            height: 2rem;
+        }
+        
+        .typing-container .cursor {
+            display: inline-block;
+            background-color: var(--text-color);
+            width: 3px;
+            height: 1.5rem;
+            margin-left: 5px;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { background-color: transparent }
+            50% { background-color: var(--text-color) }
+        }
+
+        /* Contact Section */
+        .social-icons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icons svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--text-color);
+            transition: fill 0.3s ease;
+        }
+        
+        #hackathon-projects {
+            padding-top: 100px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        #back-to-projects-btn {
+            margin-top: 3rem;
+        }
+        
+        /* --- Animated Card Styles --- */
+        .project-card {
+             background: var(--card-bg);
+             border: 1px solid var(--card-border);
+             border-radius: 12px;
+             padding: 1rem;
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+             display: flex;
+             flex-direction: column;
+             text-align: left;
+             width: 356px;
+             box-sizing: border-box;
+        }
+         .project-card:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+         }
+         .project-card h4 {
+             font-family: var(--font-display);
+             font-size: 1.5rem;
+             margin: 0 0 0.5rem 0;
+             color: var(--text-color);
+         }
+         .project-card p {
+             flex-grow: 1;
+             font-size: 0.9rem;
+             line-height: 1.6;
+         }
+         .project-card .btn {
+            align-self: flex-start;
+         }
+
+
+        .animated-card {
+            position: relative;
+            width: 356px;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        body.dark-theme .animated-card {
+            background-color: var(--card-bg);
+            border-color: var(--card-border);
+        }
+
+        .animated-card-visual {
+            height: 180px;
+            width: 356px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .animated-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+            border-top: 1px solid var(--card-border);
+            padding: 1rem;
+        }
+
+        body.dark-theme .animated-card-body {
+            border-top-color: var(--card-border);
+        }
+
+        .animated-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: -0.025em;
+            color: var(--text-color);
+        }
+
+        .animated-card-description {
+            font-size: 0.875rem;
+            color: var(--subtle-text-color);
+            flex-grow: 1;
+        }
+
+        .animated-card .btn {
+           align-self: flex-start;
+        }
+        
+        /* Visual Animation Layers */
+        .anim-layer-1 {
+            transition: transform 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 7;
+            display: flex;
+            height: 360px; /* Double height to allow translation */
+            width: 356px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animated-card:hover .anim-layer-1 {
+            transform: translateY(-90px) scale(1.1);
+        }
+
+        .donut-chart-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00000050;
+        }
+        
+        body.dark-theme .donut-chart-container {
+            color: white;
+        }
+
+        .donut-chart-container svg {
+            position: absolute;
+        }
+        
+        .donut-chart-container .percentage {
+            position: absolute;
+            font-size: 1.25rem;
+            color: var(--text-color);
+        }
+
+        .anim-layer-2 {
+            transition: transform 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            position: absolute;
+            inset: 0;
+            z-index: 6;
+            width: 356px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 1rem;
+            transform: translateY(0);
+        }
+        
+        .animated-card:hover .anim-layer-2 {
+            transform: translateY(100%);
+        }
+
+        .anim-layer-2-chip {
+            transition: opacity 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            border-radius: 0.375rem;
+            border: 1px solid var(--card-border);
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 0.375rem 0.5rem;
+            opacity: 1;
+        }
+        body.dark-theme .anim-layer-2-chip {
+             background-color: rgba(0, 0, 0, 0.25);
+        }
+
+        .animated-card:hover .anim-layer-2-chip {
+            opacity: 0;
+        }
+        .anim-layer-2-chip p { margin: 0; line-height: 1.2; }
+
+
+        .anim-layer-3 {
+            transition: all 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            position: absolute;
+            inset: 0;
+            z-index: 6;
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        
+        .animated-card:hover .anim-layer-3 {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .anim-layer-4 {
+            transition: opacity 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            position: absolute;
+            inset: 0;
+            z-index: 7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+        
+        .animated-card:hover .anim-layer-4 {
+            opacity: 1;
+        }
+
+        .anim-layer-4-item {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            border-radius: 9999px;
+            border: 1px solid var(--card-border);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 0.125rem 0.375rem;
+            transition: all 0.5s cubic-bezier(0.6, 0.6, 0, 1);
+            transform: translate(0px, 0px);
+        }
+
+        body.dark-theme .anim-layer-4-item {
+             background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .anim-grid-layer {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            background-image: 
+                linear-gradient(to right, var(--anim-grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--anim-grid-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center;
+            opacity: 0.7;
+            mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 60%, transparent 100%);
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            color: var(--subtle-text-color);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--header-border);
+        }
+
+        footer a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--header-bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            h1, h2 {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+
+            p {
+                 font-size: clamp(0.9rem, 4vw, 1rem);
+            }
+            
+            section {
+                padding: 6rem 5%;
+            }
+
+            .projects-grid, .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-icons svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <nav>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50,15 L85,85 L15,85 Z" stroke="var(--text-color)" stroke-width="8" fill="none"/>
+                  <path d="M50,45 L70,85 L30,85 Z" fill="var(--text-color)"/>
+                </svg>
+            </div>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li>
+                    <label class="theme-switch">
+                      <input type="checkbox">
+                      <span class="slider"></span>
+                      <div class="icons-container">
+                          <span class="slider-icon sun-icon">
+                              <svg viewBox='0 0 24 24'><path d='M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM11 1h2v3h-2V1Zm0 19h2v3h-2v-3ZM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93ZM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121ZM1 11h3v2H1v-2Zm19 0h3v2h-3v-2ZM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121Zm12.728-12.021l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121Z'/></svg>
+                          </span>
+                          <span class="slider-icon moon-icon">
+                              <img src="https://cdn-icons-png.flaticon.com/128/9580/9580328.png" alt="Sleep Mode">
+                          </span>
+                      </div>
+                    </label>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h1 class="hidden">Aabid Hasan</h1>
+            <div class="typing-container hidden" style="transition-delay: 200ms;">
+                <span class="typed-text"></span><span class="cursor"></span>
+            </div>
+        </section>
+
+        <section id="about">
+            <h3 class="hidden">About Me</h3>
+            <p class="hidden" style="transition-delay: 100ms;">I specialize in creating modern, responsive, and user-friendly web applications. With a strong passion for technology and continuous learning, I am always exploring new tools and techniques.</p>
+            <p class="hidden" style="transition-delay: 200ms;">As a full-stack developer, I bridge the gap between frontend elegance and backend functionality, creating seamless digital experiences driven by curiosity and innovation.</p>
+            <p class="hidden" style="transition-delay: 300ms;">As an AI enthusiast and content writer, I believe in the power of technology to solve real-world problems and am passionate about sharing knowledge through clear, accessible technical communication. You can say I'm an all-rounder, because I strive to give my best—100%—in everything I do.</p>
+        </section>
+
+        <section id="projects">
+            <h2 class="hidden">Projects</h2>
+            <div class="projects-grid">
+                
+                <!-- Animated Card 1 -->
+                <div class="animated-card hidden" style="--delay: 100ms; --anim-main-color: #8b5cf6; --anim-secondary-color: #fbbf24;">
+                    <div class="animated-card-visual">
+                        <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Productivity App</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-1)"></rect><defs><linearGradient id="anim-grad-1" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="React,Firebase,UI/UX"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Aurora Pro</h4>
+                        <p class="animated-card-description">A sleek and professional productivity application designed to streamline workflows and boost efficiency.</p>
+                        <a href="https://aurora-pro.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+
+                <!-- Animated Card 2 -->
+                <div class="animated-card hidden" style="--delay: 200ms; --anim-main-color: #ff6900; --anim-secondary-color: #f54900;">
+                    <div class="animated-card-visual">
+                         <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Multi-Modal AI</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-2)"></rect><defs><linearGradient id="anim-grad-2" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="Genkit,Gemini,APIs"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Mortal operateD</h4>
+                        <p class="animated-card-description">A multi-modal application that combines text-to-text generation with powerful text-to-image capabilities.</p>
+                        <a href="https://aabid-ai-app.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+
+                <!-- Animated Card 3 -->
+                <div class="animated-card hidden" style="--delay: 300ms; --anim-main-color: #10b981; --anim-secondary-color: #6ee7b7;">
+                    <div class="animated-card-visual">
+                         <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Image Generation</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-3)"></rect><defs><linearGradient id="anim-grad-3" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="Vite,React,Gemini"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Polyformer</h4>
+                        <p class="animated-card-description">An advanced text-to-image generator that allows users to create stunning visuals from simple text prompts.</p>
+                        <a href="https://aabid-pr0ject.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+
+                <!-- Animated Card 4 -->
+                <div class="animated-card hidden" style="--delay: 400ms; --anim-main-color: #3b82f6; --anim-secondary-color: #93c5fd;">
+                    <div class="animated-card-visual">
+                         <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Language Learning</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-4)"></rect><defs><linearGradient id="anim-grad-4" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="Culture,Interactive,Quizzes"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Learn Urdu</h4>
+                        <p class="animated-card-description">An interactive platform for learning the Urdu language, featuring lessons, quizzes, and cultural insights.</p>
+                        <a href="https://aabid-urdu.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+
+                <!-- Animated Card 5 -->
+                <div class="animated-card hidden" style="--delay: 500ms; --anim-main-color: #ef4444; --anim-secondary-color: #fca5a5;">
+                    <div class="animated-card-visual">
+                         <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Language Learning</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-5)"></rect><defs><linearGradient id="anim-grad-5" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="Learning , Excercises  ,Vocabulary"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">German Learning</h4>
+                        <p class="animated-card-description">A comprehensive web app for mastering German, offering structured lessons, vocabulary builders, and exercises.</p>
+                        <a href="https://aabid-german.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+                
+                <!-- Animated Hackathon Gateway Card -->
+                <div class="animated-card hidden" style="--delay: 600ms; --anim-main-color: #f97316; --anim-secondary-color: #fdba74;">
+                    <div class="animated-card-visual">
+                         <div class="anim-layer-1">
+                            <div class="donut-chart-container">
+                                <svg width="120" height="120" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle>
+                                    <circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                    <circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle>
+                                </svg>
+                                <span class="percentage">12.5%</span>
+                            </div>
+                        </div>
+                        <div class="anim-layer-2">
+                             <div class="anim-layer-2-chip">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div>
+                                    <p style="font-size: 0.75rem; color: var(--text-color);">Competitive Coding</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anim-layer-3">
+                             <svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-6)"></rect><defs><linearGradient id="anim-grad-6" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg>
+                        </div>
+                        <div class="anim-layer-4" data-tech="Teamwork,APIs,Fast-paced"></div>
+                        <div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Hackathon Projects</h4>
+                        <p class="animated-card-description">A collection of high-intensity projects built during competitive hackathons, showcasing rapid development.</p>
+                        <button class="btn" id="view-hackathons-btn">View Projects</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills">
+            <h3 class="hidden">Skills & Expertise</h3>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4 class="hidden" style="--delay: 100ms;">Frontend & Design</h4>
+                    <ul>
+                        <li class="hidden" style="--delay: 200ms;">React</li>
+                        <li class="hidden" style="--delay: 300ms;">Tailwind CSS</li>
+                        <li class="hidden" style="--delay: 400ms;">Designing</li>
+                        <li class="hidden" style="--delay: 500ms;">Visuals</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4 class="hidden" style="--delay: 100ms;">Programming </h4>
+                    <ul>
+                        <li class="hidden" style="--delay: 200ms;">Python</li>
+                        <li class="hidden" style="--delay: 300ms;">HTML</li>
+                        <li class="hidden" style="--delay: 400ms;">JavaScript</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4 class="hidden" style="--delay: 100ms;">Content & SEO</h4>
+                    <ul>
+                        <li class="hidden" style="--delay: 200ms;">Content Writing</li>
+                        <li class="hidden" style="--delay: 300ms;">Ghost Writing</li>
+                        <li class="hidden" style="--delay: 400ms;">SEO</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4 class="hidden" style="--delay: 100ms;">Artificial Intelligence</h4>
+                    <ul>
+                        <li class="hidden" style="--delay: 200ms;">Generative AI</li>
+                        <li class="hidden" style="--delay: 300ms;">Prompt Engineering</li>
+                        <li class="hidden" style="--delay: 400ms;">Machine Learning</li>
+                        <li class="hidden" style="--delay: 500ms;">Genkit</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+             <h2 class="hidden">Let's create something</h2>
+             <h1 class="hidden">amazing together.</h1>
+             <p class="hidden">Get in touch via email or social media.</p>
+             <div class="social-icons hidden">
+                <a href="mailto:hasanaabid191@gmail.com" aria-label="Email">
+                    <svg viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/aabid.9_/" target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.058-1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.359 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.359-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.359-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
+                </a>
+                <a href="https://github.com/GETTING9HURT" target="_blank" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/aabid-hasan-20001233e" target="_blank" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                 <a href="https://t.me/Faxee18" target="_blank" aria-label="Telegram">
+                     <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M9.5,16.5L7,14L13.5,10.5L17,8.5L14,15L11.5,14L10.5,17L9.5,16.5Z" /></svg>
+                 </a>
+             </div>
+        </section>
+    </main>
+    
+    <!-- NEW: Dedicated view for Hackathon Projects -->
+    <div id="hackathon-view" style="display: none;">
+        <section id="hackathon-projects">
+            <h2 class="hidden">Hackathon Projects</h2>
+            <div class="projects-grid">
+                <!-- Verdant Ops -->
+                <div class="animated-card hidden" style="--delay: 100ms; --anim-main-color: #22c55e; --anim-secondary-color: #86efac;">
+                    <div class="animated-card-visual">
+                        <div class="anim-layer-1"><div class="donut-chart-container"><svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle><circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle><circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle></svg><span class="percentage">12.5%</span></div></div>
+                        <div class="anim-layer-2"><div class="anim-layer-2-chip"><div style="display: flex; align-items: center; gap: 0.5rem;"><div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div><p style="font-size: 0.75rem; color: var(--text-color);">Data Dashboard</p></div></div></div>
+                        <div class="anim-layer-3"><svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-h1)"></rect><defs><linearGradient id="anim-grad-h1" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg></div>
+                        <div class="anim-layer-4" data-tech="Data Viz,APIs,Dashboard"></div><div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Verdant Ops</h4>
+                        <p class="animated-card-description">An innovative environmental monitoring dashboard to track and visualize key ecological data.</p>
+                        <a href="https://verdant-ops.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+                <!-- Stellar Scribblers -->
+                <div class="animated-card hidden" style="--delay: 200ms; --anim-main-color: #6366f1; --anim-secondary-color: #a5b4fc;">
+                    <div class="animated-card-visual">
+                        <div class="anim-layer-1"><div class="donut-chart-container"><svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle><circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle><circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle></svg><span class="percentage">12.5%</span></div></div>
+                        <div class="anim-layer-2"><div class="anim-layer-2-chip"><div style="display: flex; align-items: center; gap: 0.5rem;"><div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div><p style="font-size: 0.75rem; color: var(--text-color);">AI Storytelling</p></div></div></div>
+                        <div class="anim-layer-3"><svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-h2)"></rect><defs><linearGradient id="anim-grad-h2" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg></div>
+                        <div class="anim-layer-4" data-tech="Gen AI,Firebase,Narrative"></div><div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Stellar Scribblers</h4>
+                        <p class="animated-card-description">A collaborative storytelling platform powered by AI, enabling users to co-create imaginative narratives.</p>
+                        <a href="https://stellar-scribblers.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+                <!-- Path Finder AI -->
+                <div class="animated-card hidden" style="--delay: 300ms; --anim-main-color: #ec4899; --anim-secondary-color: #f9a8d4;">
+                    <div class="animated-card-visual">
+                        <div class="anim-layer-1"><div class="donut-chart-container"><svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle><circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle><circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle></svg><span class="percentage">12.5%</span></div></div>
+                        <div class="anim-layer-2"><div class="anim-layer-2-chip"><div style="display: flex; align-items: center; gap: 0.5rem;"><div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div><p style="font-size: 0.75rem; color: var(--text-color);">Routing AI</p></div></div></div>
+                        <div class="anim-layer-3"><svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-h3)"></rect><defs><linearGradient id="anim-grad-h3" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg></div>
+                        <div class="anim-layer-4" data-tech="Algorithms,JS,Visualization"></div><div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Path Finder AI</h4>
+                        <p class="animated-card-description">An intelligent routing tool that visualizes complex pathfinding algorithms to solve logistical challenges.</p>
+                        <a href="https://path-finderai.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+                <!-- Predictive Synapse -->
+                <div class="animated-card hidden" style="--delay: 400ms; --anim-main-color: #14b8a6; --anim-secondary-color: #99f6e4;">
+                     <div class="animated-card-visual">
+                        <div class="anim-layer-1"><div class="donut-chart-container"><svg width="120" height="120" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="10" fill="transparent" opacity="0.2"></circle><circle class="donut-secondary" cx="50" cy="50" r="40" stroke="var(--anim-secondary-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle><circle class="donut-main" cx="50" cy="50" r="40" stroke="var(--anim-main-color)" stroke-width="14" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="219.8" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.5s cubic-bezier(0.6, 0.6, 0, 1);"></circle></svg><span class="percentage">12.5%</span></div></div>
+                        <div class="anim-layer-2"><div class="anim-layer-2-chip"><div style="display: flex; align-items: center; gap: 0.5rem;"><div style="height: 0.5rem; width: 0.5rem; border-radius: 9999px; background-color: var(--anim-main-color);"></div><p style="font-size: 0.75rem; color: var(--text-color);">Predictive AI</p></div></div></div>
+                        <div class="anim-layer-3"><svg width="356" height="180" viewBox="0 0 356 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="356" height="180" fill="url(#anim-grad-h4)"></rect><defs><linearGradient id="anim-grad-h4" x1="178" y1="0" x2="178" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="var(--anim-main-color)" stop-opacity="0"></stop><stop offset="1" stop-color="var(--anim-main-color)" stop-opacity="0.3"></stop></linearGradient></defs></svg></div>
+                        <div class="anim-layer-4" data-tech="AI,Prediction,Data"></div><div class="anim-grid-layer"></div>
+                    </div>
+                    <div class="animated-card-body">
+                        <h4 class="animated-card-title">Predictive Synapse</h4>
+                        <p class="animated-card-description">An AI-powered tool for predictive analysis and data forecasting, providing actionable insights.</p>
+                        <a href="https://predictive-synapse.netlify.app/" class="btn" target="_blank">Check it out</a>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="back-to-projects-btn">Back to All Projects</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Aabid Hasan | Made with ❤️ &amp; passion.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    entry.target.classList.toggle('show', entry.isIntersecting);
+                });
+            }, { threshold: 0.1 });
+
+            function observeHiddenElements() {
+                 document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+            }
+           
+            observeHiddenElements();
+            
+            // --- HEADER SCROLL EFFECT ---
+            const header = document.querySelector('.main-header');
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+            
+            // --- TYPING ANIMATION LOGIC ---
+            const typedTextSpan = document.querySelector(".typed-text");
+            const cursorSpan = document.querySelector(".cursor");
+            const textArray = ["Full-Stack Developer", "Web Developer", "AI Enthusiast", "UI/UX Designer", "Content Writer"];
+            const typingDelay = 100;
+            const erasingDelay = 50;
+            const newTextDelay = 2000;
+            let textArrayIndex = 0;
+            let charIndex = 0;
+
+            function type() {
+                if (typedTextSpan && charIndex < textArray[textArrayIndex].length) {
+                    typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                } else {
+                    setTimeout(erase, newTextDelay);
+                }
+            }
+
+            function erase() {
+                if (typedTextSpan && charIndex > 0) {
+                    typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, erasingDelay);
+                } else {
+                    textArrayIndex++;
+                    if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                    setTimeout(type, typingDelay + 1100);
+                }
+            }
+
+            if(typedTextSpan) {
+                setTimeout(type, newTextDelay + 250);
+            }
+
+            // --- MOBILE NAVIGATION ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                document.body.classList.toggle('nav-open');
+            });
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        document.body.classList.remove('nav-open');
+                    }
+                });
+            });
+            
+            // --- THEME SWITCHER ---
+            const themeToggle = document.querySelector('.theme-switch input');
+            const currentTheme = localStorage.getItem('theme');
+
+            if (currentTheme) {
+                document.body.classList.add(currentTheme);
+                if (currentTheme === 'dark-theme') {
+                    themeToggle.checked = true;
+                }
+            }
+
+            themeToggle.addEventListener('change', () => {
+                if (themeToggle.checked) {
+                    document.body.classList.add('dark-theme');
+                    localStorage.setItem('theme', 'dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    localStorage.setItem('theme', '');
+                }
+            });
+
+            // --- ACTIVE NAV LINK ON SCROLL ---
+            const sections = document.querySelectorAll('main section');
+            const navLi = document.querySelectorAll('nav .nav-links li a');
+
+            window.addEventListener('scroll', ()=> {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLi.forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href') == `#${current}`) {
+                        a.classList.add('active');
+                    }
+                });
+            });
+
+             // --- ANIMATED CARD LOGIC ---
+            function setupAnimatedCards() {
+                const animatedCards = document.querySelectorAll('.animated-card');
+                animatedCards.forEach(card => {
+                    if (card.dataset.animated) return;
+                    card.dataset.animated = 'true';
+
+                    const mainDonut = card.querySelector('.donut-main');
+                    const secondaryDonut = card.querySelector('.donut-secondary');
+                    const percentageText = card.querySelector('.percentage');
+                    const layer4 = card.querySelector('.anim-layer-4');
+                    const radius = 40;
+                    const circumference = 2 * Math.PI * radius;
+
+                    if (layer4 && layer4.dataset.tech && layer4.children.length === 0) {
+                        const techItems = layer4.dataset.tech.split(',');
+                        const positions = [
+                            { x: "100", y: "50" }, { x: "100", y: "-50" }, { x: "125", y: "0" },
+                            { x: "-125", y: "0" }, { x: "-100", y: "50" }, { x: "-100", y: "-50" }
+                        ];
+                        
+                        techItems.slice(0, 6).forEach((tech, index) => {
+                            const item = document.createElement('div');
+                            item.className = 'anim-layer-4-item';
+                            item.style.setProperty('--tx', positions[index].x + 'px');
+                            item.style.setProperty('--ty', positions[index].y + 'px');
+
+                            const dot = document.createElement('div');
+                            dot.style.height = '6px';
+                            dot.style.width = '6px';
+                            dot.style.borderRadius = '50%';
+                            dot.style.backgroundColor = index < 3 ? 'var(--anim-main-color)' : 'var(--anim-secondary-color)';
+                            
+                            const text = document.createElement('span');
+                            text.style.fontSize = '10px';
+                            text.style.color = 'var(--text-color)';
+                            text.textContent = tech;
+
+                            item.appendChild(dot);
+                            item.appendChild(text);
+                            layer4.appendChild(item);
+                        });
+                    }
+                    
+                    const layer4Items = card.querySelectorAll('.anim-layer-4-item');
+
+                    card.addEventListener('mouseenter', () => {
+                        const mainProgress = 66;
+                        const secondaryProgress = 100;
+                        const mainDashoffset = circumference - (mainProgress / 100) * circumference;
+                        const secondaryDashoffset = circumference - (secondaryProgress / 100) * circumference;
+                        if(mainDonut) mainDonut.style.strokeDashoffset = mainDashoffset;
+                        if(secondaryDonut) secondaryDonut.style.strokeDashoffset = secondaryDashoffset;
+                        if(percentageText) percentageText.textContent = `${secondaryProgress}%`;
+
+                        layer4Items.forEach(item => {
+                             item.style.transform = `translate(${item.style.getPropertyValue('--tx')}, ${item.style.getPropertyValue('--ty')})`;
+                        });
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        const mainProgress = 12.5;
+                        const secondaryProgress = 0;
+                        const mainDashoffset = circumference - (mainProgress / 100) * circumference;
+                        const secondaryDashoffset = circumference - (secondaryProgress / 100) * circumference;
+                        if(mainDonut) mainDonut.style.strokeDashoffset = mainDashoffset;
+                        if(secondaryDonut) secondaryDonut.style.strokeDashoffset = secondaryDashoffset;
+                        if(percentageText) percentageText.textContent = `${mainProgress}%`;
+                        
+                        layer4Items.forEach(item => {
+                             item.style.transform = 'translate(0px, 0px)';
+                        });
+                    });
+                });
+            }
+            
+            // --- HACKATHON VIEW SWITCHER ---
+            const mainContent = document.querySelector('main');
+            const footerContent = document.querySelector('footer');
+            const hackathonView = document.getElementById('hackathon-view');
+            const viewHackathonsBtn = document.getElementById('view-hackathons-btn');
+            const backToProjectsBtn = document.getElementById('back-to-projects-btn');
+
+            if (viewHackathonsBtn && backToProjectsBtn && mainContent && hackathonView && footerContent) {
+                viewHackathonsBtn.addEventListener('click', () => {
+                    mainContent.style.display = 'none';
+                    footerContent.style.display = 'none';
+                    hackathonView.style.display = 'block';
+                    window.scrollTo(0, 0);
+                    // Re-run setup for cards that are now visible
+                    setupAnimatedCards();
+                     // Re-run observer for elements that are now visible
+                    observeHiddenElements();
+                });
+
+                backToProjectsBtn.addEventListener('click', () => {
+                    hackathonView.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    footerContent.style.display = 'block';
+                });
+            }
+            
+            setupAnimatedCards();
+
+        });
+    </script>
+</body>
+</html>
+
